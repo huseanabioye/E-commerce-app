@@ -1,24 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
- <h1>Welcome to admin page
+<html>
+  <head>
+    @include('admin.css')
+  </head>
+  <body>
+      @include('admin.header')
+      @include('admin.sidebar')
 
- </h1>
-
- <form method="POST" action="{{ route('logout') }}">
-    @csrf
-
-    <x-dropdown-link :href="route('logout')"
-            onclick="event.preventDefault();
-                        this.closest('form').submit();">
-        {{ __('Log Out') }}
-    </x-dropdown-link>
-</form>
-</body>
+      <!-- Sidebar Navigation end-->
+      <div class="page-content">
+        <div class="page-header">
+          <div class="container-fluid">
+             @include('admin.body')
+            </div>
+           
+      </div>
+    </div>
+    <!-- JavaScript files-->
+    <script src="{{asset('admincss/admin/vendor/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('admincss/admin/vendor/popper.js/umd/popper.min.js')}}"> </script>
+    <script src="{{asset('admincss/admin/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('admincss/admin/vendor/jquery.cookie/jquery.cookie.js')}}"> </script>
+    <script src="{{asset('admincss/admin/vendor/chart.js/Chart.min.js')}}"></script>
+    <script src="{{asset('admincss/admin/vendor/jquery-validation/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('admincss/admin/js/charts-home.js')}}"></script>
+    <script src="{{asset('admincss/admin/js/front.js')}}"></script>
+  </body>
 </html>
