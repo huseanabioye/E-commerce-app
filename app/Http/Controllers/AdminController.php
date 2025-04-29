@@ -95,7 +95,7 @@ class AdminController extends Controller
 
       public function view_product()
       {
-        $product = Product::paginate(4);
+        $product = Product::paginate(3);
         return view('admin.view_product',compact('product'));
       }
 
@@ -116,5 +116,48 @@ class AdminController extends Controller
         $data->delete();
 
         return redirect()->back();
+      }
+
+      public function update_product( $id)
+      {
+            $data = product::find($id);
+
+            $category = category::all();
+
+           return view('admin.update_page',compact('data','category'));
+      }
+
+      public function edit_product(Request $request,$id)
+      {
+          $data = product::find($id);
+
+          $data->title = $request->title;
+          $data->description = $request->description;
+          $data->price = $request->price;
+          $data->quantity = $request->quantity;
+          $data->category = $request->category;
+
+          $image = $request->image;
+          if($image){
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+
+            $request->image->move('products',$imageName);
+
+            $data->image = $imageName;
+          }
+
+          $data->save();
+
+          return redirect('/view_product');
+      }
+
+      public function product_search(Request $request)
+      {
+        $search = $request->search;
+
+        $product = product::where('title','LIKE','%'.$search.'%')->
+        orWhere('category','LIKE','%'.$search.'%')-> paginate(3);
+
+        return view('admin.view_product',compact('product'));
       }
 }

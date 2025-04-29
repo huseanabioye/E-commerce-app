@@ -32,6 +32,13 @@
         color: white;
     }
 
+    input[type="search"]
+    {
+        width: 500px;
+        height: 60px;
+        margin-left: 50px;
+    }
+
 
     </style>
   </head>
@@ -44,6 +51,11 @@
         <div class="page-header">
           <div class="container-fluid">
 
+            <form action="{{url('product_search')}}" method="get">
+                <input type="search" name="search" >
+                <input class="btn btn-secondary" type="submit" value="search" >
+            </form>
+
             <div class="div_deg">
 
                 <table class="table_deg">
@@ -54,6 +66,7 @@
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Image</th>
+                        <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                     @foreach ($product as $products )
@@ -65,7 +78,10 @@
                         <td>{{$products->price}}</td>
                         <td>{{$products->quantity}}</td>
                         <td>
-                            <img height="120" width="120" src="products/{{$products->image}}" alt="">
+                            <img height="120" width="120" src="products/{{$products->image}}" alt="g">
+                        </td>
+                        <td>
+                            <a class="btn btn-success" href="{{url('update_product',$products->id)}}">Edit</a>
                         </td>
                         <td>
                             <a class="btn btn-danger" href="{{url('delete_product',$products->id)}}">Delete</a>
@@ -74,7 +90,7 @@
 
 
 
-                   
+
                     @endforeach
 
                 </table>
