@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\category;
+use App\Models\Product;
 
 class AdminController extends Controller
 {
@@ -53,6 +54,27 @@ class AdminController extends Controller
         toastr()->timeOut(10000)->closeButton()->addSuccess('Category
         Deleted Successfully');
 
+
+        return redirect()->back();
+    }
+
+
+    public function add_product()
+    {
+        $category = category::all();
+        return view('admin.add_product', compact('category'));
+    }
+
+    public function upload_product(Request $request)
+    {
+        $data =new Product;
+        $data->title = $request->title;
+        $data->description = $request->description;
+        $data->price = $request->price;
+        $data->quantity = $request->qty;
+        $data->category = $request->category;
+
+        $data->save();
 
         return redirect()->back();
     }
