@@ -20,8 +20,8 @@ class AdminController extends Controller
         $category->category_name = $request->category;
         $category->save();
 
-        // toastr()->timeOut(10000)->closeButton()->addSuccess('Category
-        // Added Successfully');
+        toastr()->timeOut(10000)->closeButton()->addSuccess('Category
+        Added Successfully');
 
         return redirect()->back();
     }
@@ -40,6 +40,8 @@ class AdminController extends Controller
 
          $data->save();
 
+         toastr()->timeOut(10000)->closeButton()->addSuccess('Category Update Successfully');
+
          return redirect('/view_category');
     }
 
@@ -48,8 +50,8 @@ class AdminController extends Controller
         $data = category::find($id);
         $data->delete();
 
-        // toastr()->timeOut(10000)->closeButton()->addSuccess('Category
-        // Deleted Successfully');
+        toastr()->timeOut(10000)->closeButton()->addSuccess('Category
+        Deleted Successfully');
 
 
         return redirect()->back();
