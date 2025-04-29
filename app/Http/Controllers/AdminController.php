@@ -104,8 +104,17 @@ class AdminController extends Controller
 
         $data = product::find($id);
 
+        // deleting image form public folder
+
+        $image_path = public_path('products/'.$data->image);
+
+        if(file_exists($image_path))
+        {
+            unlink($image_path);
+        }
+
         $data->delete();
 
-        return redirect()->back(); 
+        return redirect()->back();
       }
 }
