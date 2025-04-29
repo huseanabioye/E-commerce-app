@@ -74,7 +74,21 @@ class AdminController extends Controller
         $data->quantity = $request->qty;
         $data->category = $request->category;
 
+        $image = $request->image;
+
+        if($image)
+        {
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+
+            $request->image->move('products',$imageName);
+
+            $data->image = $imageName;
+        }
+
         $data->save();
+
+        toastr()->timeOut(10000)->closeButton()->addSuccess('Category
+        product Upload Successfully');
 
         return redirect()->back();
     }
