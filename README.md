@@ -1,2 +1,2 @@
 # E-commerce-app
-E-commerce app . I laravel to build this app
+E-commerce app . I build laravel to build this app
