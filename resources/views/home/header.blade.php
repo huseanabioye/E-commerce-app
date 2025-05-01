@@ -38,7 +38,11 @@
 
             @auth
 
-            <form class="btn btn-success" style="10px" method="POST" action="{{ route('logout') }}">
+            <a href="">
+                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+              </a>
+
+            <form class="btn btn" style="10px" method="POST" action="{{ route('logout') }}">
                 @csrf
 
                <input type="submit" value="logout" >
@@ -63,9 +67,7 @@
           @endif
 
 
-          <a href="">
-            <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-          </a>
+
           <form class="form-inline ">
             <button class="btn nav_search-btn" type="submit">
               <i class="fa fa-search" aria-hidden="true"></i>

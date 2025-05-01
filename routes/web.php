@@ -7,10 +7,11 @@ use App\Http\Middleware\Admin;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[HomeController::class,'home']);
+Route::get('/dashboard',[HomeController::class,'login_home'])->
+middleware(['auth', 'verified'])->name('dashboard');;
 
-Route::get('/dashboard', function () {
-    return view('home.index');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
