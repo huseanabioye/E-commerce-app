@@ -38,8 +38,9 @@
 
             @auth
 
-            <a href="">
+            <a href="myCart">
                 <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                [{{$count}}]
               </a>
 
             <form class="btn btn" style="10px" method="POST" action="{{ route('logout') }}">

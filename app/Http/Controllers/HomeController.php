@@ -21,21 +21,60 @@ class HomeController extends Controller
     {
         $product = Product::all();
         //  $product->name;
-        return view('home.index', compact('product'));
+
+        if(Auth::id()){
+
+
+        $user = Auth::user();
+
+        $userid = $user->id;
+
+        $count = cart::where('user_id', $userid)->count();
+        }
+        else {
+            $count = '';
+        }
+
+        return view('home.index', compact('product','count'));
     }
 
     public function login_home()
     {
         $product = Product::all();
+
+        if(Auth::id()){
+
+
+            $user = Auth::user();
+
+            $userid = $user->id;
+
+            $count = cart::where('user_id', $userid)->count();
+            }
+            else {
+                $count = '';
+            }
         //  $product->name;
-        return view('home.index', compact('product'));
+        return view('home.index', compact('product', 'count'));
     }
 
     public function product_details($id)
     {
         $data = Product::find($id);
 
-        return view('home.product_details',compact('data'));
+        if(Auth::id()){
+
+
+            $user = Auth::user();
+
+            $userid = $user->id;
+
+            $count = cart::where('user_id', $userid)->count();
+            }
+            else {
+                $count = '';
+            }
+        return view('home.product_details',compact('data','count'));
     }
 
     public function add_cart($id){
@@ -51,9 +90,22 @@ class HomeController extends Controller
         $data->save();
 
         return redirect()->back();
-        
 
 
 
+
+    }
+
+    public function myCart()
+    {
+        if(Auth::id())
+        {
+            $user = Auth::user();
+            $userid = $user->id;
+            $count = cart::where('user_id',$userid)->count();
+
+            $cart = cart::where('user_id',$userid)->get();
+        }
+        return view('home.myCart',compact('count', 'cart'));
     }
 }
