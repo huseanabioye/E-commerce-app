@@ -8,6 +8,7 @@ use App\Models\Product;
 
 use App\Models\User;
 use App\Models\cart;
+use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -107,5 +108,23 @@ class HomeController extends Controller
             $cart = cart::where('user_id',$userid)->get();
         }
         return view('home.myCart',compact('count', 'cart'));
+    }
+
+    public function delete_cart($id)
+    {
+        $data = cart::find($id);
+
+        return redirect()->back();
+
+    }
+
+    public function confirm_order(Request $request)
+    {
+        $name = $request->name;
+        $address = $request->address;
+        $phone = $request->phone;
+        $userid = Auth::user()->id;
+
+        $order = new Order;
     }
 }
