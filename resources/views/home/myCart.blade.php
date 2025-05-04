@@ -57,7 +57,7 @@
 <div class="div_deg">
 
     <div class="order_deg">
-        <form action="{{url('confirm_oder')}}" method="post">
+        <form action="{{url('confirm_order')}}" method="post">
 
             @csrf
          <div class="div_gap">

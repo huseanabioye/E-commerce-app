@@ -114,6 +114,8 @@ class HomeController extends Controller
     {
         $data = cart::find($id);
 
+        $data->delete();
+
         return redirect()->back();
 
     }
@@ -125,6 +127,38 @@ class HomeController extends Controller
         $phone = $request->phone;
         $userid = Auth::user()->id;
 
-        $order = new Order;
-    }
+        $cart = cart::where('user_id', $userid)->get();
+
+
+        foreach($cart as $carts){
+
+            $order = new Order;
+
+            $order->name = $name;
+            $order->rec_address = $address;
+            $order->phone = $phone;
+            $order->user_id = $userid;
+            $order->product_id = $carts->product_id;
+
+            $order->save();
+
+
+        }
+
+        $cart_remove = cart::where('user_id',$userid)->get();
+
+        foreach ($cart_remove as  $remove) {
+        
+
+            $data = cart::find($remove->id);
+
+            $data->delete();
+        }
+
+        return redirect()->back();
+
+
+        }
+
+      
 }
