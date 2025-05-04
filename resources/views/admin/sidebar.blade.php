@@ -12,7 +12,7 @@
       </div>
       <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
       <ul class="list-unstyled">
-              <li class="active"><a href="index.html"> <i class="icon-home"></i>Home </a></li>
+              <li class="active"><a href="/admin/dashboard"> <i class="icon-home"></i>Home </a></li>
               <li><a href="{{url('view_category')}}"> <i class="icon-grid"></i>Category </a></li>
               {{-- <li><a href="charts.html"> <i class="fa fa-bar-chart"></i>Charts </a></li>
               <li><a href="forms.html"> <i class="icon-padnote"></i>Forms </a></li> --}}
@@ -27,7 +27,7 @@
               </li>
 
 
-              <li><a href="{{url('view_category')}}"> <i class="icon-grid"></i>Order </a></li>
+              <li><a href="{{url('view_order')}}"> <i class="icon-grid"></i>Order </a></li>
               {{-- <li><a href="login.html"> <i class="icon-logout"></i>Login page </a></li>
       </ul><span class="heading">Extras</span> --}}
       {{-- <ul class="list-unstyled">
