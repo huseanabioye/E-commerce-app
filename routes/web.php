@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/',[HomeController::class,'home']);
 Route::get('/dashboard',[HomeController::class,'login_home'])->
-middleware(['auth', 'verified'])->name('dashboard');;
+middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/myOrders',[HomeController::class,'myOrders'])->
+middleware(['auth', 'verified']);
 
 
 
