@@ -72,3 +72,10 @@ middleware(['auth','admin']);
 Route::get('print_pdf/{id}',[AdminController::class,'print_pdf'])->
 middleware(['auth','admin']);
 
+// FOR STRIPE PAYMENT
+
+Route::controller(HomeController::class)->group(function(){
+
+    Route::get('stripe', 'stripe');
+    Route::post('stripe', 'stripePost')->name('stripe.post');
+});

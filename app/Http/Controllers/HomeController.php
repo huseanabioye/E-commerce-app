@@ -9,6 +9,8 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\cart;
 use App\Models\Order;
+
+use Stripe;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -175,5 +177,9 @@ class HomeController extends Controller
             return view('home.order', compact('count', 'order'));
         }
 
+
+        public function stripe(){
+            return view('home.stripe');
+        }
 
 }

@@ -76,7 +76,9 @@
         </div><br>
          <div class="div_gap">
 
-            <input class="btn btn-primary" type="submit" value="place order" id="">
+            <input class="btn btn-primary" type="submit" value="place Cash on Delivery" ><br><br>
+
+            <a class="btn btn-success" href="{{route('stripe')}}">Pay using card</a>
         </div>
 
         </form>
