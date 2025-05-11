@@ -74,6 +74,34 @@
         </table>
       </div>
 
+      <div class="order_deg" style="justify-content: center; display: flex; align-items: center; margin: 20px;" >
+        <form action="{{url('confirm_order')}}" method="post">
+
+            @csrf
+         <div class="div_gap">
+            <label>Receiver Name</label>
+            <input type="name" name="name" value="{{Auth::user()->name}}">
+        </div><br>
+         <div class="div_gap">
+            <label>Receiver Address</label>
+            <br>
+            <textarea name="address" >{{Auth::user()->address}}</textarea>
+        </div>
+        <br>
+         <div class="div_gap">
+            <label>Receiver Phone</label>
+            <input type="name" name="phone" value="{{Auth::user()->phone}}">
+        </div><br>
+         <div class="div_gap">
+
+            <input class="btn btn-primary" type="submit" value="place Cash on Delivery" ><br><br>
+
+            <a class="btn btn-success" href="{{url('stripe')}}">Pay using card</a>
+        </div>
+
+        </form>
+    </div>
+
       @include('home.footer')
 
 </body>

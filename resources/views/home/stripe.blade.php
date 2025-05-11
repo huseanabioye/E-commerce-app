@@ -1,1 +1,495 @@
+{{-- <!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Laravel E-commerce payment</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+
+
+<div class="container">
+
+
+
+    <h1>E-commerce Payment</h1>
+
+
+
+    <div class="row">
+
+        <div class="col-md-6 col-md-offset-3">
+
+            <div class="panel panel-default credit-card-box">
+
+                <div class="panel-heading display-table" >
+
+                        <h3 class="panel-title" >Payment Details</h3>
+
+                </div>
+
+                <div class="panel-body">
+
+
+
+                    @if (Session::has('success'))
+
+                        <div class="alert alert-success text-center">
+
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+
+                            <p>{{ Session::get('success') }}</p>
+
+                        </div>
+
+                    @endif
+
+
+
+                    <form
+
+                            role="form"
+
+                            action="{{ route('stripe.post') }}"
+
+                            method="post"
+
+                            class="require-validation"
+
+                            data-cc-on-file="false"
+
+                            data-stripe-publishable-key="{{ env('STRIPE_KEY') }}"
+
+                            id="payment-form">
+
+                        @csrf
+
+
+
+                        <div class='form-row row'>
+
+                            <div class='col-xs-12 form-group required'>
+
+                                <label class='control-label'>Name on Card</label> <input
+
+                                    class='form-control' size='4' type='text'>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class='form-row row'>
+
+                            <div class='col-xs-12 form-group card required'>
+
+                                <label class='control-label'>Card Number</label> <input
+
+                                    autocomplete='off' class='form-control card-number' size='20'
+
+                                    type='text'>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class='form-row row'>
+
+                            <div class='col-xs-12 col-md-4 form-group cvc required'>
+
+                                <label class='control-label'>CVC</label> <input autocomplete='off'
+
+                                    class='form-control card-cvc' placeholder='ex. 311' size='4'
+
+                                    type='text'>
+
+                            </div>
+
+                            <div class='col-xs-12 col-md-4 form-group expiration required'>
+
+                                <label class='control-label'>Expiration Month</label> <input
+
+                                    class='form-control card-expiry-month' placeholder='MM' size='2'
+
+                                    type='text'>
+
+                            </div>
+
+                            <div class='col-xs-12 col-md-4 form-group expiration required'>
+
+                                <label class='control-label'>Expiration Year</label> <input
+
+                                    class='form-control card-expiry-year' placeholder='YYYY' size='4'
+
+                                    type='text'>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class='form-row row'>
+
+                            <div class='col-md-12 error form-group hide'>
+
+                                <div class='alert-danger alert'>Please correct the errors and try
+
+                                    again.</div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="row">
+
+                            <div class="col-xs-12">
+
+                                <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now ($100)</button>
+
+                            </div>
+
+                        </div>
+
+
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</div>
+
+
+
+</body>
+
+
+<!-- Stripe.js v3 -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<form id="payment-form">
+  <div id="card-element"><!-- A Stripe Element will be inserted here. --></div>
+  <div id="card-errors" role="alert"></div>
+  <button type="submit">Submit Payment</button>
+</form>
+
+<script>
+  const stripe = Stripe("STRIPE_KEY"); // Replace with your publishable key
+  const elements = stripe.elements();
+
+  const card = elements.create("card");
+  card.mount("#card-element");
+
+  card.on("change", function(event) {
+    const displayError = document.getElementById("card-errors");
+    if (event.error) {
+      displayError.textContent = event.error.message;
+    } else {
+      displayError.textContent = "";
+    }
+  });
+
+  const form = document.getElementById("payment-form");
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    stripe.createToken(card).then(function(result) {
+      if (result.error) {
+        const errorElement = document.getElementById("card-errors");
+        errorElement.textContent = result.error.message;
+      } else {
+        const hiddenInput = document.createElement("input");
+        hiddenInput.setAttribute("type", "hidden");
+        hiddenInput.setAttribute("name", "stripeToken");
+        hiddenInput.setAttribute("value", result.token.id);
+        form.appendChild(hiddenInput);
+        form.submit();
+      }
+    });
+  });
+</script>
+
+
+
+
+{{-- <script type="text/javascript" src="https://js.stripe.com/v2/"></script> --}}
+
+
+
+{{-- <script type="text/javascript">
+
+
+
+$(function() {
+
+
+
+    /*------------------------------------------
+
+    --------------------------------------------
+
+    Stripe Payment Code
+
+    --------------------------------------------
+
+    --------------------------------------------*/
+
+
+
+    var $form = $(".require-validation");
+
+
+
+    $('form.require-validation').bind('submit', function(e) {
+
+        var $form = $(".require-validation"),
+
+        inputSelector = ['input[type=email]', 'input[type=password]',
+
+                         'input[type=text]', 'input[type=file]',
+
+                         'textarea'].join(', '),
+
+        $inputs = $form.find('.required').find(inputSelector),
+
+        $errorMessage = $form.find('div.error'),
+
+        valid = true;
+
+        $errorMessage.addClass('hide');
+
+
+
+        $('.has-error').removeClass('has-error');
+
+        $inputs.each(function(i, el) {
+
+          var $input = $(el);
+
+          if ($input.val() === '') {
+
+            $input.parent().addClass('has-error');
+
+            $errorMessage.removeClass('hide');
+
+            e.preventDefault();
+
+          }
+
+        });
+
+
+
+        if (!$form.data('cc-on-file')) {
+
+          e.preventDefault();
+
+          Stripe.setPublishableKey($form.data('stripe-publishable-key'));
+
+          Stripe.createToken({
+
+            number: $('.card-number').val(),
+
+            cvc: $('.card-cvc').val(),
+
+            exp_month: $('.card-expiry-month').val(),
+
+            exp_year: $('.card-expiry-year').val()
+
+          }, stripeResponseHandler);
+
+        }
+
+
+
+    });
+
+
+
+    /*------------------------------------------
+
+    --------------------------------------------
+
+    Stripe Response Handler
+
+    --------------------------------------------
+
+    --------------------------------------------*/
+
+    function stripeResponseHandler(status, response) {
+
+        if (response.error) {
+
+            $('.error')
+
+                .removeClass('hide')
+
+                .find('.alert')
+
+                .text(response.error.message);
+
+        } else {
+
+            /* token contains id, last4, and card type */
+
+            var token = response['id'];
+
+
+
+            $form.find('input[type=text]').empty();
+
+            $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+
+            $form.get(0).submit();
+
+        }
+
+    }
+
+
+
+});
+
+</script> --}}
+
+
+{{-- </html> --}}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laravel E-commerce Payment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        #card-element {
+            border: 1px solid #ced4da;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        #card-errors {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>E-commerce Payment</h1>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default credit-card-box">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Payment Details </h3>
+                    <h4>You need to pay ${{$value}}</h4>
+                </div>
+                <div class="panel-body">
+
+                    @if (Session::has('success'))
+                        <div class="alert alert-success text-center">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                            <p>{{ Session::get('success') }}</p>
+                        </div>
+                    @endif
+
+                    <form id="payment-form" method="POST" action="{{ route('stripe.post', $value) }}">
+                        @csrf
+
+
+
+                        <div class='form-row row'>
+                            <div class='col-xs-12 form-group required'>
+                                <label class='control-label'>Name on Card</label>
+                                <input class='form-control' name="card_name" size='4' type='text' required>
+                            </div>
+                        </div>
+
+                        <div class='form-row row'>
+                            <div class='col-xs-12 form-group card required'>
+                                <label class='control-label'>Card Details</label>
+                                <div id="card-element"></div>
+                                <div id="card-errors" role="alert"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button class="btn btn-primary btn-lg btn-block" type="submit">
+                                    Pay Now 
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stripe.js v3 -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    const stripe = Stripe("{{ env('STRIPE_KEY') }}"); // Your publishable key
+    const elements = stripe.elements();
+
+    const card = elements.create('card', {
+        hidePostalCode: true
+    });
+    card.mount('#card-element');
+
+    card.on('change', function(event) {
+        const displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+
+    const form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        stripe.createToken(card).then(function(result) {
+            if (result.error) {
+                const errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            } else {
+                const hiddenInput = document.createElement('input');
+                hiddenInput.setAttribute('type', 'hidden');
+                hiddenInput.setAttribute('name', 'stripeToken');
+                hiddenInput.setAttribute('value', result.token.id);
+                form.appendChild(hiddenInput);
+
+                form.submit();
+            }
+        });
+    });
+</script>
+</body>
+</html>
 
