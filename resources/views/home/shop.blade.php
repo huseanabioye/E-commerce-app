@@ -11,8 +11,8 @@
      @include('home.header')
     <!-- end header section -->
     <!-- slider section -->
-
-       @include('home.slider')
+{{--
+       @include('home.slider') --}}
     <!-- end slider section -->
   </div>
   <!-- end hero area -->
@@ -28,13 +28,13 @@
 
 
 
- 
+
 
 
 
   <!-- info section -->
 
-  @include('home.footer')
+  {{-- @include('home.footer') --}}
 </body>
 
 </html>

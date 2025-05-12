@@ -24,7 +24,7 @@
         }
 
         td {
-           
+
 
             color: white;
             padding: 10px;
@@ -48,6 +48,9 @@
         <div class="page-header">
             <div class="container-fluid">
 
+                <h3>All Orders</h3>
+                <br>
+                <br>
                 <div class="table_center">
                     <table>
                         <tr>
@@ -57,12 +60,13 @@
                             <th>Product Title</th>
                             <th>Price</th>
                             <th>Image</th>
+                            <th>Payment Status</th>
                             <th>Status</th>
                             <th>change  Status</th>
                             <th>Print PDF</th>
                         </tr>
 
-                     
+
            @if(count($data) > 0)
                     @foreach ($data as $order)
         <tr>
@@ -74,6 +78,7 @@
             <td>
                 <img width="150" src="{{ asset('products/' . $order->product->image) }}">
             </td>
+            <td>{{ $order->payment_status }}</td>
             <td>
                 @if ( $order->status == 'in progress')
 
@@ -85,7 +90,7 @@
                 @else
 
                 <span style="color: yellow">{{ $order->status }}</span>
-                
+
                 @endif
             </td>
 
@@ -94,15 +99,15 @@
                  <br><br>
                 <a class="btn btn-success" href="{{url('delivered',$order->id)}}">Delivered</a>
 
-               
+
              </td>
 
              <td>
                  <a class="btn btn-secondary" href="{{url('print_pdf',$order->id)}}">Print PDF</a>
             </td>
-         
-             
-                
+
+
+
         </tr>
     @endforeach
 @else
@@ -112,22 +117,22 @@
 @endif
 
 
-      
 
 
 
-                       
-
-                       
-                       
-                            
-                                
-
- 
 
 
- 
-                     
+
+
+
+
+
+
+
+
+
+
+
 
 
 

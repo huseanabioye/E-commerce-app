@@ -239,6 +239,90 @@ foreach ($cart_remove as  $remove) {
 
 return redirect('/myCart');
 }
+
+public function shop()
+{
+    $product = Product::all();
+    //  $product->name;
+
+    if(Auth::id()){
+
+
+    $user = Auth::user();
+
+    $userid = $user->id;
+
+    $count = cart::where('user_id', $userid)->count();
+    }
+    else {
+        $count = '';
+    }
+
+    return view('home.shop', compact('product','count'));
+}
+public function why()
+{
+    // $product = Product::all();
+    //  $product->name;
+
+    if(Auth::id()){
+
+
+    $user = Auth::user();
+
+    $userid = $user->id;
+
+    $count = cart::where('user_id', $userid)->count();
+    }
+    else {
+        $count = '';
+    }
+
+    return view('home.why', compact('count'));
+}
+public function testimonial()
+{
+    // $product = Product::all();
+    //  $product->name;
+
+    if(Auth::id()){
+
+
+    $user = Auth::user();
+
+    $userid = $user->id;
+
+    $count = cart::where('user_id', $userid)->count();
+    }
+    else {
+        $count = '';
+    }
+
+    return view('home.testimonial', compact('count'));
+}
+public function contact()
+{
+    // $product = Product::all();
+    //  $product->name;
+
+    if(Auth::id()){
+
+
+    $user = Auth::user();
+
+    $userid = $user->id;
+
+    $count = cart::where('user_id', $userid)->count();
+    }
+    else {
+        $count = '';
+    }
+
+    return view('home.contact', compact('count'));
+}
+
+
+
 }
 
 

@@ -11,7 +11,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class AdminController extends Controller
 {
     public function  view_category()
-    { 
+    {
         $data = category::all();
         return view('admin.category', compact('data'));
     }
@@ -120,9 +120,9 @@ class AdminController extends Controller
         return redirect()->back();
       }
 
-      public function update_product( $id)
+      public function update_product( $slug)
       {
-            $data = product::find($id);
+            $data = product::where('slug', $slug)->get()->first();
 
             $category = category::all();
 
@@ -199,7 +199,7 @@ class AdminController extends Controller
         $pdf = pdf::loadView('admin.invoice',compact('data'));
 
         return $pdf->download('invoice.pdf');
-   
+
 
       }
 }
